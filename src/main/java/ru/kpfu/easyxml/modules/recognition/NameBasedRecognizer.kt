@@ -71,6 +71,7 @@ class NameBasedRecognizer : Recognizer {
     private fun recursiveRecognition(document: Document, parentView: ViewGroup) {
         val childView = recognizeView(document)
         childView?.let { view ->
+            setCoordinates(view, parentView)
             parentView.children.add(view)
             if (isNeedToRecognizeChildren(view)) {
                 document.children?.forEach {
@@ -104,7 +105,7 @@ class NameBasedRecognizer : Recognizer {
                 }
             }
         }
-        if (view == null && document.type == NodeType.GROUP)
+        if (view == null && (document.type == NodeType.GROUP || document.type == NodeType.INSTANCE))
             view = ViewGroup(document)
         return view
     }
@@ -125,5 +126,10 @@ class NameBasedRecognizer : Recognizer {
         //ToDo: Need to fix
         if (!document.effects.isNullOrEmpty())
             parentView.radius = document.effects[0].radius ?: parentView.radius
+    }
+
+    private fun setCoordinates(view: View, parentView: View) {
+        view.x = view.absoluteX - parentView.absoluteX
+        view.y = view.absoluteY - parentView.absoluteY
     }
 }
