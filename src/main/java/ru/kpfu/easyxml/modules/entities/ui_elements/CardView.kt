@@ -7,6 +7,4 @@ class CardView(document: Document) : ViewGroup(document) {
     companion object {
         val KEY = "card"
     }
-
-    var cardCornerRadius: Double? = null
 }

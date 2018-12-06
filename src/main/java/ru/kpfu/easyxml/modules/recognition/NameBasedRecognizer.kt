@@ -1,6 +1,5 @@
 package ru.kpfu.easyxml.modules.recognition
 
-import ru.kpfu.easyxml.modules.entities.Color
 import ru.kpfu.easyxml.modules.entities.Document
 import ru.kpfu.easyxml.modules.entities.NodeType
 import ru.kpfu.easyxml.modules.entities.ui_elements.*
@@ -21,49 +20,64 @@ class NameBasedRecognizer : Recognizer {
         when (parentView) {
             is Screen -> {
                 if (isBackground(document)) {
-
+                    setBackgroundToParent(document, parentView)
                 } else {
                     recursiveRecognition(document, parentView)
                 }
             }
 
             is Button -> {
-                println(document.type)
+                when {
+                    isBackground(document) -> setBackgroundToParent(document, parentView)
+                    recognizeView(document) is TextView -> {
+                        parentView.text = document.characters ?: parentView.text
+                        parentView.textStyle = document.style
+                    }
+                }
             }
 
             is CardView -> {
                 if (isBackground(document)) {
-                    if (!document.effects.isNullOrEmpty())
-                        parentView.cardCornerRadius = document.effects[0].radius
-                    if (!document.fills.isNullOrEmpty())
-                        parentView.backgroundColor = document.fills[0].color
+                    setBackgroundToParent(document, parentView)
                 } else {
                     recursiveRecognition(document, parentView)
                 }
             }
 
             is StatusBar -> {
-                println(document.type)
+                if (isBackground(document))
+                    setBackgroundToParent(document, parentView)
             }
 
             is AppBar -> {
-                println(document.type)
+                if (isBackground(document))
+                    setBackgroundToParent(document, parentView)
             }
-        }
-    }
 
-    private fun recursiveRecognition(document: Document, parentView: ViewGroup) {
-        val childView = recognizeView(document)
-        childView?.let { view ->
-            parentView.children.add(view)
-            document.children?.forEach {
-                recognizeDocument(it, view)
+            is ViewGroup -> {
+                if (isBackground(document)) {
+                    setBackgroundToParent(document, parentView)
+                } else {
+                    recursiveRecognition(document, parentView)
+                }
             }
         }
     }
 
     private fun recognizeScreen(document: Document): Screen {
         return Screen(document)
+    }
+
+    private fun recursiveRecognition(document: Document, parentView: ViewGroup) {
+        val childView = recognizeView(document)
+        childView?.let { view ->
+            parentView.children.add(view)
+            if (isNeedToRecognizeChildren(view)) {
+                document.children?.forEach {
+                    recognizeDocument(it, view)
+                }
+            }
+        }
     }
 
     private fun recognizeView(document: Document): View? {
@@ -90,12 +104,26 @@ class NameBasedRecognizer : Recognizer {
                 }
             }
         }
+        if (view == null && document.type == NodeType.GROUP)
+            view = ViewGroup(document)
         return view
     }
 
+    private fun isNeedToRecognizeChildren(view: View): Boolean =
+            view !is Icon
+
     private fun isBackground(document: Document): Boolean =
-            (document.type == NodeType.VECTOR || document.exportSettings?.isEmpty() == true)
+            (document.type == NodeType.VECTOR || document.type == NodeType.RECTANGLE || document.type == NodeType.ELLIPSE)
+                    && document.exportSettings?.isEmpty() == true
                     && (document.visible == null || document.visible)
                     && (document.children.isNullOrEmpty())
                     && (!document.fills.isNullOrEmpty() || !document.effects.isNullOrEmpty())
+
+    private fun setBackgroundToParent(document: Document, parentView: View) {
+        if (!document.fills.isNullOrEmpty())
+            parentView.backgroundColor = document.fills[0].color
+        //ToDo: Need to fix
+        if (!document.effects.isNullOrEmpty())
+            parentView.radius = document.effects[0].radius ?: parentView.radius
+    }
 }
