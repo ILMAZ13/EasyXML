@@ -7,4 +7,8 @@ class AppBar(document: Document) : View(document) {
     companion object {
         val KEY = "app bar"
     }
+
+    override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
+        return list
+    }
 }

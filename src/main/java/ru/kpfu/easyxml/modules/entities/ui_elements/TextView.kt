@@ -12,4 +12,15 @@ open class TextView(document: Document) : View(document) {
         text = document.characters ?: ""
         textStyle = document.style
     }
+
+    override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
+        if (isParent)
+            list.add("<TextView")
+        super.getParamLines(list, false)
+        list.add("tools:text=\"$text\"")
+        list.add("android:textSize=\"${textStyle?.fontSize}sp\"\n")
+        if (isParent)
+            list.add("/>")
+        return list
+    }
 }

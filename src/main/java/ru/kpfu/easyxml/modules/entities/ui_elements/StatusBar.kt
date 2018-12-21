@@ -7,4 +7,8 @@ class StatusBar(document: Document) : View(document) {
     companion object {
         val KEY = "status bar"
     }
+
+    override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
+        return list
+    }
 }

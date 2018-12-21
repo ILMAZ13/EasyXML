@@ -21,7 +21,7 @@ fun main(args: Array<String>) {
                     .subscribe { fileResponse: NodesResponce?, throwable: Throwable? ->
                         fileResponse?.nodes?.get(id)?.document?.let {
                             val screen = kodein.instance<Recognizer>().recognize(it)
-                            print(screen)
+                            print(screen.getString())
                         }
                     }
         }

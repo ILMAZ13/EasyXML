@@ -7,4 +7,14 @@ class CardView(document: Document) : ViewGroup(document) {
     companion object {
         val KEY = "card"
     }
+
+    override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
+        if (isParent)
+            list.add("<android.support.v7.widget.CardView")
+        super.getParamLines(list, false)
+        if (isParent)
+            list.add("</android.support.v7.widget.CardView>")
+
+        return list
+    }
 }
