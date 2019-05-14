@@ -22,20 +22,20 @@ import com.google.gson.annotations.SerializedName
  * key String
  * File to export JSON from
  */
-data class FileResponse (
+data class FileResponse(
         /**
          * A mapping from node IDs to component metadata. This is to help you determine which
          * components each instance comes from. Currently the only piece of metadata available on
          * components is the name of the component, but more properties will be forthcoming.
          */
-        val components: Map<String, Component>? = null,
+        val components: Map<String, Component>,
 
         /**
          * The root node within the document
          */
-        val document: DocumentClass? = null,
+        val document: DocumentClass,
 
-        val schemaVersion: Double? = null
+        val schemaVersion: Double
 )
 
 /**
@@ -43,84 +43,84 @@ data class FileResponse (
  * A description of a master component. Helps you identify which component
  * instances are attached to
  */
-data class Component (
+data class Component(
         /**
          * Bounding box of the node in absolute space coordinates
          */
-        val absoluteBoundingBox: Rect? = null,
+        val absoluteBoundingBox: Rect,
 
         /**
          * Background color of the node
          */
-        val backgroundColor: Color? = null,
+        val backgroundColor: Color,
 
         /**
          * How this node blends with nodes behind it in the scene
          * (see blend mode section for more details)
          */
-        val blendMode: BlendMode? = null,
+        val blendMode: BlendMode,
 
         /**
          * An array of nodes that are direct children of this node
          */
-        val children: List<Document>? = null,
+        val children: List<Document>,
 
         /**
          * Does this node clip content outside of its bounds?
          */
-        val clipsContent: Boolean? = null,
+        val clipsContent: Boolean,
 
         /**
          * Horizontal and vertical layout constraints for node
          */
-        val constraints: LayoutConstraint? = null,
+        val constraints: LayoutConstraint,
 
         /**
          * The description of the component as entered in the editor
          */
-        val description: String? = null,
+        val description: String,
 
         /**
          * An array of effects attached to this node
          * (see effects section for more details)
          */
-        val effects: List<Effect>? = null,
+        val effects: List<Effect>,
 
         /**
          * An array of export settings representing images to export from node
          */
-        val exportSettings: List<ExportSetting>? = null,
+        val exportSettings: List<ExportSetting>,
 
         /**
          * a string uniquely identifying this node within the document
          */
-        val id: String? = null,
+        val id: String,
 
         /**
          * Does this node mask sibling nodes in front of it?
          */
-        val isMask: Boolean? = null,
+        val isMask: Boolean,
 
         /**
          * An array of layout grids attached to this node (see layout grids section
          * for more details). GROUP nodes do not have this attribute
          */
-        val layoutGrids: List<LayoutGrid>? = null,
+        val layoutGrids: List<LayoutGrid>,
 
         /**
          * The name of the component
          */
-        val name: String? = null,
+        val name: String,
 
         /**
          * Opacity of the node
          */
-        val opacity: Double? = null,
+        val opacity: Double,
 
         /**
          * Keep height and width constrained to same ratio
          */
-        val preserveRatio: Boolean? = null,
+        val preserveRatio: Boolean,
 
         /**
          * Node ID of node to transition to in prototyping
@@ -130,12 +130,12 @@ data class Component (
         /**
          * the type of the node, refer to table below for details
          */
-        val type: NodeType? = null,
+        val type: NodeType,
 
         /**
          * whether or not the node is visible on the canvas
          */
-        val visible: Boolean? = null
+        val visible: Boolean
 )
 
 /**
@@ -143,26 +143,26 @@ data class Component (
  *
  * A rectangle that expresses a bounding box in absolute coordinates
  */
-data class Rect (
+data class Rect(
         /**
          * Height of the rectangle
          */
-        val height: Double? = null,
+        val height: Double,
 
         /**
          * Width of the rectangle
          */
-        val width: Double? = null,
+        val width: Double,
 
         /**
          * X coordinate of top left corner of the rectangle
          */
-        val x: Double? = null,
+        val x: Double,
 
         /**
          * Y coordinate of top left corner of the rectangle
          */
-        val y: Double? = null
+        val y: Double
 )
 
 /**
@@ -178,7 +178,7 @@ data class Rect (
  *
  * Color of the grid
  */
-data class Color (
+data class Color(
         /**
          * Alpha channel value, between 0 and 1
          */
@@ -200,7 +200,7 @@ data class Color (
         val r: Float
 ) {
     companion object {
-        fun getHex(color: Color) : String = "#${Integer.toHexString(java.awt.Color(color.r, color.g, color.b, color.a).rgb)}"
+        fun getHex(color: Color): String = "#${Integer.toHexString(java.awt.Color(color.r, color.g, color.b, color.a).rgb)}"
     }
 }
 
@@ -211,26 +211,45 @@ data class Color (
  * Enum describing how layer blends with layers below
  * This type is a string enum with the following possible values
  */
-enum class BlendMode(val value: String) {
-    Color("COLOR"),
-    ColorBurn("COLOR_BURN"),
-    ColorDodge("COLOR_DODGE"),
-    Darken("DARKEN"),
-    Difference("DIFFERENCE"),
-    Exclusion("EXCLUSION"),
-    HardLight("HARD_LIGHT"),
-    Hue("HUE"),
-    Lighten("LIGHTEN"),
-    LinearBurn("LINEAR_BURN"),
-    LinearDodge("LINEAR_DODGE"),
-    Luminosity("LUMINOSITY"),
-    Multiply("MULTIPLY"),
-    Normal("NORMAL"),
-    Overlay("OVERLAY"),
-    PassThrough("PASS_THROUGH"),
-    Saturation("SATURATION"),
-    Screen("SCREEN"),
-    SoftLight("SOFT_LIGHT");
+enum class BlendMode {
+    @SerializedName("COLOR")
+    Color,
+    @SerializedName("COLOR_BURN")
+    ColorBurn,
+    @SerializedName("COLOR_DODGE")
+    ColorDodge,
+    @SerializedName("DARKEN")
+    Darken,
+    @SerializedName("DIFFERENCE")
+    Difference,
+    @SerializedName("EXCLUSION")
+    Exclusion,
+    @SerializedName("HARD_LIGHT")
+    HardLight,
+    @SerializedName("HUE")
+    Hue,
+    @SerializedName("LIGHTEN")
+    Lighten,
+    @SerializedName("LINEAR_BURN")
+    LinearBurn,
+    @SerializedName("LINEAR_DODGE")
+    LinearDodge,
+    @SerializedName("LUMINOSITY")
+    Luminosity,
+    @SerializedName("MULTIPLY")
+    Multiply,
+    @SerializedName("NORMAL")
+    Normal,
+    @SerializedName("OVERLAY")
+    Overlay,
+    @SerializedName("PASS_THROUGH")
+    PassThrough,
+    @SerializedName("SATURATION")
+    Saturation,
+    @SerializedName("SCREEN")
+    Screen,
+    @SerializedName("SOFT_LIGHT")
+    SoftLight;
 }
 
 /**
@@ -270,7 +289,7 @@ enum class BlendMode(val value: String) {
  * An instance of a component, changes to the component result in the same
  * changes applied to the instance
  */
-data class Document (
+data class Document(
         /**
          * An array of canvases attached to the document
          *
@@ -285,24 +304,24 @@ data class Document (
         /**
          * a string uniquely identifying this node within the document
          */
-        val id: String? = null,
+        val id: String,
 
         /**
          * the name given to the node by the user in the tool.
          *
          * The name of the component
          */
-        val name: String? = null,
+        val name: String,
 
         /**
-         * the type of the node? = null, refer to table below for details
+         * the type of the node, refer to table below for details
          */
-        val type: NodeType? = null,
+        val type: NodeType,
 
         /**
          * whether or not the node is visible on the canvas
          */
-        val visible: Boolean? = null,
+        val visible: Boolean,
 
         /**
          * Background color of the canvas
@@ -434,7 +453,7 @@ data class Document (
          * ID of component that this instance came from, refers to components
          * table (see endpoints section below)
          */
-        @SerializedName("componentId")
+        @SerializedName(value = "componentId")
         val componentID: String? = null
 ) {
     override fun toString(): String = "name=$name type=$type ${super.toString()}"
@@ -445,7 +464,7 @@ data class Document (
  *
  * Layout constraint relative to containing Frame
  */
-data class LayoutConstraint (
+data class LayoutConstraint(
         /**
          * Horizontal constraint as an enum
          * "LEFT": Node is laid out relative to left of the containing frame
@@ -455,7 +474,7 @@ data class LayoutConstraint (
          * (node stretches with frame)
          * "SCALE": Node scales horizontally with containing frame
          */
-        val horizontal: Horizontal? = null,
+        val horizontal: Horizontal,
 
         /**
          * Vertical constraint as an enum
@@ -466,7 +485,7 @@ data class LayoutConstraint (
          * (node stretches with frame)
          * "SCALE": Node scales vertically with containing frame
          */
-        val vertical: Vertical? = null
+        val vertical: Vertical
 )
 
 /**
@@ -478,12 +497,17 @@ data class LayoutConstraint (
  * (node stretches with frame)
  * "SCALE": Node scales horizontally with containing frame
  */
-enum class Horizontal(val value: String) {
-    Center("CENTER"),
-    Left("LEFT"),
-    LeftRight("LEFT_RIGHT"),
-    Right("RIGHT"),
-    Scale("SCALE");
+enum class Horizontal {
+    @SerializedName("CENTER")
+    Center,
+    @SerializedName("LEFT")
+    Left,
+    @SerializedName("LEFT_RIGHT")
+    LeftRight,
+    @SerializedName("RIGHT")
+    Right,
+    @SerializedName("SCALE")
+    Scale;
 }
 
 /**
@@ -495,12 +519,17 @@ enum class Horizontal(val value: String) {
  * (node stretches with frame)
  * "SCALE": Node scales vertically with containing frame
  */
-enum class Vertical(val value: String) {
-    Bottom("BOTTOM"),
-    Center("CENTER"),
-    Scale("SCALE"),
-    Top("TOP"),
-    TopBottom("TOP_BOTTOM");
+enum class Vertical {
+    @SerializedName("BOTTOM")
+    Bottom,
+    @SerializedName("CENTER")
+    Center,
+    @SerializedName("SCALE")
+    Scale,
+    @SerializedName("TOP")
+    Top,
+    @SerializedName("TOP_BOTTOM")
+    TopBottom;
 }
 
 /**
@@ -509,7 +538,7 @@ enum class Vertical(val value: String) {
  *
  * A visual effect such as a shadow or blur
  */
-data class Effect (
+data class Effect(
         /**
          * Enum describing how layer blends with layers below
          * This type is a string enum with the following possible values
@@ -529,23 +558,23 @@ data class Effect (
         /**
          * Radius of the blur effect (applies to shadows as well)
          */
-        val radius: Double? = null,
+        val radius: Double,
 
         /**
          * Type of effect as a string enum
          */
-        val type: EffectType? = null,
+        val type: EffectType,
 
         /**
          * Is the effect active?
          */
-        val visible: Boolean? = null
+        val visible: Boolean
 )
 
 /**
  * A 2d vector
  *
- * This field contains three vectors? = null, each of which are a position in
+ * This field contains three vectors, each of which are a position in
  * normalized object space (normalized object space is if the top left
  * corner of the bounding box of the object is (0, 0) and the bottom
  * right is (1,1)). The first position corresponds to the start of the
@@ -556,26 +585,30 @@ data class Effect (
  *
  * 2d vector offset within the frame.
  */
-data class Vector2 (
+data class Vector2(
         /**
          * X coordinate of the vector
          */
-        val x: Double? = null,
+        val x: Double,
 
         /**
          * Y coordinate of the vector
          */
-        val y: Double? = null
+        val y: Double
 )
 
 /**
  * Type of effect as a string enum
  */
-enum class EffectType(val value: String) {
-    BackgroundBlur("BACKGROUND_BLUR"),
-    DropShadow("DROP_SHADOW"),
-    InnerShadow("INNER_SHADOW"),
-    LayerBlur("LAYER_BLUR");
+enum class EffectType {
+    @SerializedName("BACKGROUND_BLUR")
+    BackgroundBlur,
+    @SerializedName("DROP_SHADOW")
+    DropShadow,
+    @SerializedName("INNER_SHADOW")
+    InnerShadow,
+    @SerializedName("LAYER_BLUR")
+    LayerBlur;
 }
 
 /**
@@ -587,21 +620,21 @@ enum class EffectType(val value: String) {
  *
  * An array of export settings representing images to export from the canvas
  */
-data class ExportSetting (
+data class ExportSetting(
         /**
          * Constraint that determines sizing of exported asset
          */
-        val constraint: Constraint? = null,
+        val constraint: Constraint,
 
         /**
-         * Image type? = null, string enum
+         * Image type, string enum
          */
-        val format: Format? = null,
+        val format: Format,
 
         /**
          * File suffix to append to all filenames
          */
-        val suffix: String? = null
+        val suffix: String
 )
 
 /**
@@ -609,19 +642,19 @@ data class ExportSetting (
  *
  * Sizing constraint for exports
  */
-data class Constraint (
+data class Constraint(
         /**
          * Type of constraint to apply; string enum with potential values below
          * "SCALE": Scale by value
          * "WIDTH": Scale proportionally and set width to value
          * "HEIGHT": Scale proportionally and set height to value
          */
-        val type: ConstraintType? = null,
+        val type: ConstraintType,
 
         /**
          * See type property for effect of this field
          */
-        val value: Double? = null
+        val value: Double
 )
 
 /**
@@ -630,19 +663,25 @@ data class Constraint (
  * "WIDTH": Scale proportionally and set width to value
  * "HEIGHT": Scale proportionally and set height to value
  */
-enum class ConstraintType(val value: String) {
-    Height("HEIGHT"),
-    Scale("SCALE"),
-    Width("WIDTH");
+enum class ConstraintType {
+    @SerializedName("HEIGHT")
+    Height,
+    @SerializedName("SCALE")
+    Scale,
+    @SerializedName("WIDTH")
+    Width;
 }
 
 /**
  * Image type, string enum
  */
-enum class Format(val value: String) {
-    Jpg("JPG"),
-    PNG("PNG"),
-    SVG("SVG");
+enum class Format {
+    @SerializedName("JPG")
+    Jpg,
+    @SerializedName("PNG")
+    PNG,
+    @SerializedName("SVG")
+    SVG;
 }
 
 /**
@@ -654,7 +693,7 @@ enum class Format(val value: String) {
  *
  * Paints applied to characters
  */
-data class Paint (
+data class Paint(
         /**
          * Solid color of the paint
          */
@@ -683,7 +722,7 @@ data class Paint (
          * Overall opacity of paint (colors within the paint can also have opacity
          * values which would blend with this)
          */
-        val opacity: Double? = null,
+        val opacity: Double,
 
         /**
          * Image scaling mode
@@ -693,12 +732,12 @@ data class Paint (
         /**
          * Type of paint as a string enum
          */
-        val type: FillType? = null,
+        val type: FillType,
 
         /**
          * Is the paint enabled?
          */
-        val visible: Boolean? = null
+        val visible: Boolean
 )
 
 /**
@@ -708,29 +747,36 @@ data class Paint (
  *
  * A position color pair representing a gradient stop
  */
-data class ColorStop (
+data class ColorStop(
         /**
          * Color attached to corresponding position
          */
-        val color: Color? = null,
+        val color: Color,
 
         /**
          * Value between 0 and 1 representing position along gradient axis
          */
-        val position: Double? = null
+        val position: Double
 )
 
 /**
  * Type of paint as a string enum
  */
-enum class FillType(val value: String) {
-    Emoji("EMOJI"),
-    GradientAngular("GRADIENT_ANGULAR"),
-    GradientDiamond("GRADIENT_DIAMOND"),
-    GradientLinear("GRADIENT_LINEAR"),
-    GradientRadial("GRADIENT_RADIAL"),
-    Image("IMAGE"),
-    Solid("SOLID");
+enum class FillType {
+    @SerializedName("EMOJI")
+    Emoji,
+    @SerializedName("GRADIENT_ANGULAR")
+    GradientAngular,
+    @SerializedName("GRADIENT_DIAMOND")
+    GradientDiamond,
+    @SerializedName("GRADIENT_LINEAR")
+    GradientLinear,
+    @SerializedName("GRADIENT_RADIAL")
+    GradientRadial,
+    @SerializedName("IMAGE")
+    Image,
+    @SerializedName("SOLID")
+    Solid;
 }
 
 /**
@@ -739,34 +785,34 @@ enum class FillType(val value: String) {
  *
  * Guides to align and place objects within a frame
  */
-data class LayoutGrid (
+data class LayoutGrid(
         /**
          * Positioning of grid as a string enum
          * "MIN": Grid starts at the left or top of the frame
          * "MAX": Grid starts at the right or bottom of the frame
          * "CENTER": Grid is center aligned
          */
-        val alignment: Alignment? = null,
+        val alignment: Alignment,
 
         /**
          * Color of the grid
          */
-        val color: Color? = null,
+        val color: Color,
 
         /**
          * Number of columns or rows
          */
-        val count: Double? = null,
+        val count: Double,
 
         /**
          * Spacing in between columns and rows
          */
-        val gutterSize: Double? = null,
+        val gutterSize: Double,
 
         /**
          * Spacing before the first column or row
          */
-        val offset: Double? = null,
+        val offset: Double,
 
         /**
          * Orientation of the grid as a string enum
@@ -774,17 +820,17 @@ data class LayoutGrid (
          * "ROWS": Horizontal grid
          * "GRID": Square grid
          */
-        val pattern: Pattern? = null,
+        val pattern: Pattern,
 
         /**
          * Width of column grid or height of row grid or square grid spacing
          */
-        val sectionSize: Double? = null,
+        val sectionSize: Double,
 
         /**
          * Is the grid currently visible?
          */
-        val visible: Boolean? = null
+        val visible: Boolean
 )
 
 /**
@@ -793,10 +839,13 @@ data class LayoutGrid (
  * "MAX": Grid starts at the right or bottom of the frame
  * "CENTER": Grid is center aligned
  */
-enum class Alignment(val value: String) {
-    Center("CENTER"),
-    Max("MAX"),
-    Min("MIN");
+enum class Alignment {
+    @SerializedName("CENTER")
+    Center,
+    @SerializedName("MAX")
+    Max,
+    @SerializedName("MIN")
+    Min;
 }
 
 /**
@@ -805,10 +854,13 @@ enum class Alignment(val value: String) {
  * "ROWS": Horizontal grid
  * "GRID": Square grid
  */
-enum class Pattern(val value: String) {
-    Columns("COLUMNS"),
-    Grid("GRID"),
-    Rows("ROWS");
+enum class Pattern {
+    @SerializedName("COLUMNS")
+    Columns,
+    @SerializedName("GRID")
+    Grid,
+    @SerializedName("ROWS")
+    Rows;
 }
 
 /**
@@ -817,10 +869,13 @@ enum class Pattern(val value: String) {
  * "OUTSIDE": draw stroke outside the shape boundary
  * "CENTER": draw stroke centered along the shape boundary
  */
-enum class StrokeAlign(val value: String) {
-    Center("CENTER"),
-    Inside("INSIDE"),
-    Outside("OUTSIDE");
+enum class StrokeAlign {
+    @SerializedName("CENTER")
+    Center,
+    @SerializedName("INSIDE")
+    Inside,
+    @SerializedName("OUTSIDE")
+    Outside;
 }
 
 /**
@@ -831,80 +886,87 @@ enum class StrokeAlign(val value: String) {
  *
  * Map from ID to TypeStyle for looking up style overrides
  */
-data class TypeStyle (
+data class TypeStyle(
         /**
          * Paints applied to characters
          */
-        val fills: List<Paint>? = null,
+        val fills: List<Paint>,
 
         /**
          * Font family of text (standard name)
          */
-        val fontFamily: String? = null,
+        val fontFamily: String,
 
         /**
          * PostScript font name
          */
-        val fontPostScriptName: String? = null,
+        val fontPostScriptName: String,
 
         /**
          * Font size in px
          */
-        val fontSize: Double? = null,
+        val fontSize: Double,
 
         /**
          * Numeric font weight
          */
-        val fontWeight: Double? = null,
+        val fontWeight: Double,
 
         /**
          * Is text italicized?
          */
-        val italic: Boolean? = null,
+        val italic: Boolean,
 
         /**
          * Space between characters in px
          */
-        val letterSpacing: Double? = null,
+        val letterSpacing: Double,
 
         /**
          * Line height as a percentage of normal line height
          */
-        val lineHeightPercent: Double? = null,
+        val lineHeightPercent: Double,
 
         /**
          * Line height in px
          */
-        val lineHeightPx: Double? = null,
+        val lineHeightPx: Double,
 
         /**
          * Horizontal text alignment as string enum
          */
-        val textAlignHorizontal: TextAlignHorizontal? = null,
+        val textAlignHorizontal: TextAlignHorizontal,
 
         /**
          * Vertical text alignment as string enum
          */
-        val textAlignVertical: TextAlignVertical? = null
+        val textAlignVertical: TextAlignVertical
 )
 
 /**
  * Horizontal text alignment as string enum
  */
-enum class TextAlignHorizontal(val value: String) {
-    Center("CENTER"),
-    Justified("JUSTIFIED"),
-    Left("LEFT"),
-    Right("RIGHT");
+enum class TextAlignHorizontal {
+    @SerializedName("CENTER")
+    Center,
+    @SerializedName("JUSTIFIED")
+    Justified,
+    @SerializedName("LEFT")
+    Left,
+    @SerializedName("RIGHT")
+    Right;
 }
 
 /**
  * Vertical text alignment as string enum
  */
-enum class TextAlignVertical(val value: String) {
-    Bottom("BOTTOM"),
-    Center("CENTER"),
-    Top("TOP");
+enum class TextAlignVertical {
+    @SerializedName("BOTTOM")
+    Bottom,
+    @SerializedName("CENTER")
+    Center,
+    @SerializedName("TOP")
+    Top;
 }
 
 /**
@@ -928,11 +990,11 @@ enum class NodeType {
     @SerializedName("LINE")
     LINE,
     @SerializedName("BOOLEAN")
-    NodeTypeBOOLEAN,
+    NODETYPEBOOLEAN,
     @SerializedName("RECTANGLE")
     RECTANGLE,
     @SerializedName("REGULAR_POLYGON")
-    RegularPOLYGON,
+    REGULARPOLYGON,
     @SerializedName("SLICE")
     SLICE,
     @SerializedName("STAR")
@@ -949,31 +1011,31 @@ enum class NodeType {
  *
  * The root node within the document
  */
-data class DocumentClass (
+data class DocumentClass(
         /**
          * An array of canvases attached to the document
          */
-        val children: List<Document>? = null,
+        val children: List<Document>,
 
         /**
          * a string uniquely identifying this node within the document
          */
-        val id: String? = null,
+        val id: String,
 
         /**
          * the name given to the node by the user in the tool.
          */
-        val name: String? = null,
+        val name: String,
 
         /**
-         * the type of the node? = null, refer to table below for details
+         * the type of the node, refer to table below for details
          */
-        val type: NodeType? = null,
+        val type: NodeType,
 
         /**
          * whether or not the node is visible on the canvas
          */
-        val visible: Boolean? = null
+        val visible: Boolean
 )
 
 /**
@@ -986,63 +1048,63 @@ data class DocumentClass (
  * key String
  * File to get comments from
  */
-data class CommentsResponse (
+data class CommentsResponse(
         val comments: List<Comment>
 )
 
 /**
  * A comment or reply left by a user
  */
-data class Comment (
-        @SerializedName("client_meta")
-        val clientMeta: ClientMeta? = null,
+data class Comment(
+        @SerializedName(value = "client_meta")
+        val clientMeta: ClientMeta,
 
         /**
          * The time at which the comment was left
          */
-        @SerializedName("created_at")
-        val createdAt: String? = null,
+        @SerializedName(value = "created_at")
+        val createdAt: String,
 
         /**
          * The file in which the comment lives
          */
-        @SerializedName("file_key")
-        val fileKey: String? = null,
+        @SerializedName(value = "file_key")
+        val fileKey: String,
 
         /**
          * Unique identifier for comment
          */
-        val id: String? = null,
+        val id: String,
 
         /**
          * (MISSING IN DOCS)
          * The content of the comment
          */
-        val message: String? = null,
+        val message: String,
 
         /**
          * Only set for top level comments. The number displayed with the
          * comment in the UI
          */
-        @SerializedName("order_id")
-        val orderID: Double? = null,
+        @SerializedName(value = "order_id")
+        val orderID: Double,
 
         /**
-         * If present? = null, the id of the comment to which this is the reply
+         * If present, the id of the comment to which this is the reply
          */
-        @SerializedName("parent_id")
-        val parentID: String? = null,
+        @SerializedName(value = "parent_id")
+        val parentID: String,
 
         /**
          * If set, when the comment was resolved
          */
-        @SerializedName("resolved_at")
+        @SerializedName(value = "resolved_at")
         val resolvedAt: String? = null,
 
         /**
          * The user who left the comment
          */
-        val user: User? = null
+        val user: User
 )
 
 /**
@@ -1061,7 +1123,7 @@ data class Comment (
  *
  * A relative offset within a frame
  */
-data class ClientMeta (
+data class ClientMeta(
         /**
          * X coordinate of the vector
          */
@@ -1075,13 +1137,13 @@ data class ClientMeta (
         /**
          * Unique id specifying the frame.
          */
-        @SerializedName("node_id")
+        @SerializedName(value = "node_id")
         val nodeID: List<String>? = null,
 
         /**
          * 2d vector offset within the frame.
          */
-        @SerializedName("node_offset")
+        @SerializedName(value = "node_offset")
         val nodeOffset: Vector2? = null
 )
 
@@ -1090,11 +1152,11 @@ data class ClientMeta (
  *
  * A description of a user
  */
-data class User (
-        val handle: String? = null,
+data class User(
+        val handle: String,
 
-        @SerializedName("img_url")
-        val imgURL: String? = null
+        @SerializedName(value = "img_url")
+        val imgURL: String
 )
 
 /**
@@ -1121,11 +1183,11 @@ data class User (
  * > Error codes
  * 404 The specified file was not found
  */
-data class CommentRequest (
-        @SerializedName("client_meta")
-        val clientMeta: ClientMeta? = null,
+data class CommentRequest(
+        @SerializedName(value = "client_meta")
+        val clientMeta: ClientMeta,
 
-        val message: String? = null
+        val message: String
 )
 
 /**
@@ -1139,13 +1201,13 @@ data class CommentRequest (
  * team_id String
  * Id of the team to list projects from
  */
-data class ProjectsResponse (
+data class ProjectsResponse(
         val projects: List<Project>
 )
 
-data class Project (
-        val id: Double? = null,
-        val name: String? = null
+data class Project(
+        val id: Double,
+        val name: String
 )
 
 /**
@@ -1158,26 +1220,26 @@ data class Project (
  * project_id String
  * Id of the project to list files from
  */
-data class ProjectFilesResponse (
+data class ProjectFilesResponse(
         val files: List<File>
-) 
+)
 
-data class File (
-        val key: String? = null,
+data class File(
+        val key: String,
 
         /**
          * utc date in iso8601
          */
-        @SerializedName("last_modified")
-        val lastModified: String? = null,
+        @SerializedName(value = "last_modified")
+        val lastModified: String,
 
-        val name: String? = null,
+        val name: String,
 
-        @SerializedName("thumbnail_url")
-        val thumbnailURL: String? = null
+        @SerializedName(value = "thumbnail_url")
+        val thumbnailURL: String
 )
 
-data class NodesResponce(
+data class NodesResponse(
         /**
          * utc date in iso8601
          */
@@ -1195,6 +1257,12 @@ data class NodesResponce(
 )
 
 data class DocumentWrapper(
-        val document: Document? = null,
+        val document: Document,
         val components: Map<String, Component>? = null
+)
+
+data class ImageResponse(
+        val err: String,
+        val images: Map<String, String>,
+        val status: Number
 )
