@@ -1,7 +1,7 @@
 package ru.kpfu.easyxml.modules.recognition
 
-import ru.kpfu.easyxml.modules.entities.Document
-import ru.kpfu.easyxml.modules.entities.NodeType
+import ru.kpfu.easyxml.modules.entities.figma.Document
+import ru.kpfu.easyxml.modules.entities.figma.NodeType
 import ru.kpfu.easyxml.modules.entities.ui_elements.*
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.View
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.ViewGroup

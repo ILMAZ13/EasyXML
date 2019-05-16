@@ -1,7 +1,7 @@
 package ru.kpfu.easyxml.modules.entities.ui_elements.base
 
-import ru.kpfu.easyxml.modules.entities.Color
-import ru.kpfu.easyxml.modules.entities.Document
+import ru.kpfu.easyxml.modules.entities.figma.Color
+import ru.kpfu.easyxml.modules.entities.figma.Document
 
 open class View(var document: Document) {
     var name: String = ""
@@ -16,12 +16,12 @@ open class View(var document: Document) {
 
     init {
 //        backgroundColor = document.backgroundColor
-        name = document.name ?: ""
+        name = document.name
         document.absoluteBoundingBox?.let {
-            absoluteX = it.x ?: 0.0
-            absoluteY = it.y ?: 0.0
-            height = it.height ?: 0.0
-            width = it.width ?: 0.0
+            absoluteX = it.x
+            absoluteY = it.y
+            height = it.height
+            width = it.width
         }
     }
 

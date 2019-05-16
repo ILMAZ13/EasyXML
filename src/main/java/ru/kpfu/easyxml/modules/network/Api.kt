@@ -5,8 +5,8 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ru.kpfu.easyxml.modules.entities.ImageResponse
-import ru.kpfu.easyxml.modules.entities.NodesResponse
+import ru.kpfu.easyxml.modules.entities.figma.ImageResponse
+import ru.kpfu.easyxml.modules.entities.figma.NodesResponse
 
 interface Api {
 
