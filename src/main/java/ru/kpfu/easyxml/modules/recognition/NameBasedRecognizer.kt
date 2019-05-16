@@ -84,7 +84,7 @@ class NameBasedRecognizer : Recognizer {
     private fun recognizeView(document: Document): View? {
         var view: View? = null
 
-        if (document.visible != null && !document.visible)
+        if (!document.visible)
             return null
 
         if (document.exportSettings?.isNotEmpty() == true)
@@ -93,7 +93,7 @@ class NameBasedRecognizer : Recognizer {
         if (document.type == NodeType.TEXT)
             return TextView(document)
 
-        document.name?.let {
+        document.name.let {
             view = when {
                 it.contains(CheckBox.KEY, true) -> CheckBox(document)
                 it.contains(AppBar.KEY, true) -> AppBar(document)
@@ -116,7 +116,7 @@ class NameBasedRecognizer : Recognizer {
     private fun isBackground(document: Document): Boolean =
             (document.type == NodeType.VECTOR || document.type == NodeType.RECTANGLE || document.type == NodeType.ELLIPSE)
                     && document.exportSettings?.isEmpty() == true
-                    && (document.visible == null || document.visible)
+                    && (document.visible)
                     && (document.children.isNullOrEmpty())
                     && (!document.fills.isNullOrEmpty() || !document.effects.isNullOrEmpty())
 
@@ -125,7 +125,7 @@ class NameBasedRecognizer : Recognizer {
             parentView.backgroundColor = document.fills[0].color
         //ToDo: Need to fix
         if (!document.effects.isNullOrEmpty())
-            parentView.radius = document.effects[0].radius ?: parentView.radius
+            parentView.radius = document.effects[0].radius
     }
 
     private fun setCoordinates(view: View, parentView: View) {

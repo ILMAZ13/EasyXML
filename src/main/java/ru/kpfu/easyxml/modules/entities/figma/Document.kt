@@ -71,7 +71,8 @@ data class Document(
         /**
          * whether or not the node is visible on the canvas
          */
-        val visible: Boolean,
+        //todo: Setting default not work
+        val visible: Boolean = true,
 
         /**
          * Background color of the canvas
@@ -119,7 +120,8 @@ data class Document(
         /**
          * Does this node mask sibling nodes in front of it?
          */
-        val isMask: Boolean? = null,
+        //todo: Setting default not work
+        val isMask: Boolean = false,
 
         /**
          * An array of layout grids attached to this node (see layout grids section
@@ -130,12 +132,14 @@ data class Document(
         /**
          * Opacity of the node
          */
-        val opacity: Double? = null,
+        //todo: Setting default not work
+        val opacity: Double = 1.0,
 
         /**
          * Keep height and width constrained to same ratio
          */
-        val preserveRatio: Boolean? = null,
+        //todo: Setting default not work
+        val preserveRatio: Boolean = false,
 
         /**
          * Node ID of node to transition to in prototyping

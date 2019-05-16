@@ -6,7 +6,10 @@ import ru.kpfu.easyxml.modules.entities.figma.NodesResponse
 import ru.kpfu.easyxml.modules.network.Api
 import ru.kpfu.easyxml.modules.recognition.Recognizer
 import ru.kpfu.easyxml.utils.kodein
+import java.io.FileOutputStream
+import java.net.URL
 import java.net.URLDecoder
+import java.nio.channels.Channels
 import java.util.regex.Pattern
 
 fun main() {
@@ -27,13 +30,13 @@ fun main() {
 //                        }
 //                    }
 
-            kodein.instance<Api>().getRes(token = token, key = key, ids = id)
+            kodein.instance<Api>().getRes(token, key, id)
                     .subscribe { fileResponse: NodesResponse?, throwable: Throwable? ->
                         fileResponse?.nodes?.get(id)?.document?.let {
                             kodein.instance<Api>().getImages(token, key, getImageIds(it))
                                     .subscribe { imageResponse, throwable ->
-                                        run {
-                                            print(imageResponse)
+                                        imageResponse?.let {
+                                            downloadImages(it.images)
                                         }
                                     }
 
@@ -43,6 +46,20 @@ fun main() {
                     }
         }
     }
+}
+
+private fun downloadImages(images: Map<String, String?>) {
+    images.entries.forEach {
+        it.value?.let { link ->
+            downloadImage(URL(link), it.key)
+        }
+    }
+}
+
+private fun downloadImage(url: URL, name: String) {
+    val channel = Channels.newChannel(url.openStream())
+    val outputStream = FileOutputStream("$name.png")
+    outputStream.channel.transferFrom(channel, 0, Long.MAX_VALUE)
 }
 
 private fun getImageIds(document: Document): String {
@@ -64,7 +81,7 @@ private fun isImage(document: Document, ids: MutableList<String>): Boolean {
         }
         if (!allChildIsImage) {
             list.forEach {
-                if (it.isImage) ids.add(it.id)
+                if (it.isImage && it.visible) ids.add(it.id)
             }
         }
         allChildIsImage

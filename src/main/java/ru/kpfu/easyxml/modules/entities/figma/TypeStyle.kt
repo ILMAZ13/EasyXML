@@ -64,7 +64,19 @@ data class TypeStyle(
         /**
          * Vertical text alignment as string enum
          */
-        val textAlignVertical: TextAlignVertical
+        val textAlignVertical: TextAlignVertical,
+
+        /**
+         * Text Case as enum
+         */
+        //todo: Setting default not work
+        val textCase: TextCase = TextCase.ORIGINAL,
+
+        /**
+         * Text decoration string as enum
+         */
+        //todo: Setting default not work
+        val textDecoration: TextDecoration = TextDecoration.NONE
 ) {
 
     /**
@@ -72,11 +84,11 @@ data class TypeStyle(
      */
     enum class TextAlignVertical {
         @SerializedName("BOTTOM")
-        Bottom,
+        BOTTOM,
         @SerializedName("CENTER")
-        Center,
+        CENTER,
         @SerializedName("TOP")
-        Top;
+        TOP;
     }
 
     /**
@@ -84,12 +96,38 @@ data class TypeStyle(
      */
     enum class TextAlignHorizontal {
         @SerializedName("CENTER")
-        Center,
+        CENTER,
         @SerializedName("JUSTIFIED")
-        Justified,
+        JUSTIFIED,
         @SerializedName("LEFT")
-        Left,
+        LEFT,
         @SerializedName("RIGHT")
-        Right;
+        RIGHT;
+    }
+
+    /**
+     *  Text case as enum
+     */
+    enum class TextCase {
+        @SerializedName("ORIGINAL")
+        ORIGINAL,
+        @SerializedName("UPPER")
+        UPPER,
+        @SerializedName("LOWER")
+        LOWER,
+        @SerializedName("TITLE")
+        TITLE
+    }
+
+    /**
+     * Decoration of text as enum
+     */
+    enum class TextDecoration {
+        @SerializedName("NONE")
+        NONE,
+        @SerializedName("STRIKETHROUGH")
+        STRIKETHROUGH,
+        @SerializedName("UNDERLINE")
+        UNDERLINE
     }
 }
