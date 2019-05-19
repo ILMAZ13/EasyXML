@@ -81,7 +81,8 @@ private fun isImage(document: Document, ids: MutableList<String>): Boolean {
         }
         if (!allChildIsImage) {
             list.forEach {
-                if (it.isImage && it.visible) ids.add(it.id)
+                //todo: Setting default not work: uncomment after fixing
+                if (it.isImage) ids.add(it.id) //&& it.visible
             }
         }
         allChildIsImage
