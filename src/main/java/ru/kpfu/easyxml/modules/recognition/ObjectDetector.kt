@@ -72,11 +72,11 @@ class ObjectDetector {
                                 val y = Math.round(height * boxes[i][0])
                                 val xx = Math.round(width * boxes[i][3]) - x
                                 val yy = Math.round(height * boxes[i][2]) - y
-                                results.add(Result(labels[classes[i].toInt()] ?: "Not", x, y, xx, yy))
+                                results.add(Result(labels[classes[i].toInt()] ?: "?", x, y, xx, yy))
 
                                 //todo to removing
                                 g2d.drawRect(x, y, xx, yy)
-                                g2d.drawString(labels[classes[i].toInt()], x, y + 30)
+                                g2d.drawString(labels[classes[i].toInt()], x, y + 15)
 
                             }
                             g2d.dispose()
