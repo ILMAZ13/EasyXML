@@ -1,0 +1,71 @@
+item {
+  id: 1
+  name: 'button'
+  display_name: 'button'
+}
+
+item {
+  id: 2
+  name: 'seek'
+  display_name: 'seek'
+}
+
+item {
+  id: 3
+  name: 'checkbox'
+  display_name: 'checkbox'
+}
+
+item {
+  id: 4
+  name: 'toolbar'
+  display_name: 'toolbar'
+}
+
+item {
+  id: 5
+  name: 'app_bar'
+  display_name: 'app_bar'
+}
+
+item {
+  id: 6
+  name: 'nav_bar'
+  display_name: 'nav_bar'
+}
+
+item {
+  id: 7
+  name: 'keyboard'
+  display_name: 'keyboard'
+}
+
+item {
+  id: 8
+  name: 'fab'
+  display_name: 'fab'
+}
+
+item {
+  id: 9
+  name: 'radio_button'
+  display_name: 'radio_button'
+}
+
+item {
+  id: 10
+  name: 'edit_text'
+  display_name: 'edit_text'
+}
+
+item {
+  id: 11
+  name: 'buttom_nav'
+  display_name: 'buttom_nav'
+}
+
+item {
+  id: 12
+  name: 'switch'
+  display_name: 'switch'
+}

@@ -18,5 +18,6 @@ interface Api {
     @GET("v1/images/{key}")
     fun getImages(@Header("X-Figma-Token") token: String,
                   @Path("key") key: String,
-                  @Query("ids") ids: String): Single<ImageResponse>
+                  @Query("ids") ids: String,
+                  @Query("format") format: String = "png"): Single<ImageResponse>
 }
