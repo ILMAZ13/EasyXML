@@ -132,8 +132,8 @@ data class Document(
         /**
          * Opacity of the node
          */
-        //todo: Setting default not work
-        val opacity: Double = 1.0,
+        @SerializedName("opacity")
+        private val _opacity: Double?,
 
         /**
          * Keep height and width constrained to same ratio
@@ -217,6 +217,9 @@ data class Document(
 
     val visible
         get() = _visible ?: true
+
+    val opacity
+        get() = _opacity ?: 1.0
 
     var isImage: Boolean = false
 

@@ -69,15 +69,21 @@ data class TypeStyle(
         /**
          * Text Case as enum
          */
-        //todo: Setting default not work
-        val textCase: TextCase = TextCase.ORIGINAL,
+        @SerializedName("textCase")
+        val _textCase: TextCase?,
 
         /**
          * Text decoration string as enum
          */
-        //todo: Setting default not work
-        val textDecoration: TextDecoration = TextDecoration.NONE
+        @SerializedName("textDecoration")
+        val _textDecoration: TextDecoration?
 ) {
+
+    val textCase: TextCase
+        get() = _textCase ?: TextCase.ORIGINAL
+
+    val textDecoration: TextDecoration
+        get() = _textDecoration ?: TextDecoration.NONE
 
     /**
      * Vertical text alignment as string enum
