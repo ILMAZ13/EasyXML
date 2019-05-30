@@ -71,8 +71,8 @@ data class Document(
         /**
          * whether or not the node is visible on the canvas
          */
-        //todo: Setting default not work
-        val visible: Boolean = true,
+        @SerializedName("visible")
+        private val _visible: Boolean?,
 
         /**
          * Background color of the canvas
@@ -214,6 +214,9 @@ data class Document(
     companion object {
         private val images = listOf(NodeType.VECTOR, NodeType.BOOLEAN, NodeType.STAR, NodeType.LINE, NodeType.ELLIPSE, NodeType.REGULAR_POLYGON, NodeType.RECTANGLE)
     }
+
+    val visible
+        get() = _visible ?: true
 
     var isImage: Boolean = false
 

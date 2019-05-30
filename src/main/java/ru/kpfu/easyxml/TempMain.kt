@@ -26,6 +26,7 @@ fun main() {
 
             val api by kodein.instance<Api>()
             val recognizer by kodein.instance<Recognizer>()
+            val objectDetector by kodein.instance<ObjectDetector>()
 
             api.getRes(token, key, id)
                     .subscribe { fileResponse: NodesResponse?, _: Throwable? ->
@@ -34,8 +35,10 @@ fun main() {
                                         imageResponse?.let {
                                             val url = URL(it.images[doc.id])
                                             val file = File("last.jpg")
+
                                             downloadImage(url, file)
-                                            val results = ObjectDetector().recognize(file)
+
+                                            val results = objectDetector.recognize(file)
 
                                         }
                                     }
