@@ -2,18 +2,17 @@ package ru.kpfu.easyxml.modules.entities.ui_elements
 
 import ru.kpfu.easyxml.modules.entities.figma.Document
 
-class Button(document: Document) : TextView(document) {
+class FloatingActionButton(document: Document) : Icon(document) {
     companion object {
-        const val KEY = "button"
+        const val KEY = "fab"
     }
 
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (isParent)
-            list.add("<Button")
+            list.add("<android.support.design.widget.FloatingActionButton")
         super.getParamLines(list, false)
         if (isParent)
             list.add("/>")
-
         return list
     }
 }

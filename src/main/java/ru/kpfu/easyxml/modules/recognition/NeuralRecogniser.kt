@@ -4,7 +4,7 @@ import ru.kpfu.easyxml.modules.entities.figma.Document
 import ru.kpfu.easyxml.modules.entities.ui_elements.Screen
 
 class NeuralRecogniser : Recognizer {
-    override fun recognize(document: Document): Screen {
+    override fun recognize(document: Document, results: List<ObjectDetector.Result>): Screen {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

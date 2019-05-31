@@ -3,9 +3,9 @@ package ru.kpfu.easyxml.modules.entities.ui_elements
 import ru.kpfu.easyxml.modules.entities.figma.Document
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.View
 
-class StatusBar(document: Document) : View(document) {
+class BottomNavigation(document: Document) : View(document) {
     companion object {
-        const val KEY = "toolbar"
+        const val KEY = "buttom_nav"
     }
 
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {

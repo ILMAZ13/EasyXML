@@ -18,7 +18,8 @@ open class TextView(document: Document) : View(document) {
             list.add("<TextView")
         super.getParamLines(list, false)
         list.add("tools:text=\"$text\"")
-        list.add("android:textSize=\"${textStyle?.fontSize}sp\"\n")
+        list.add("android:textSize=\"${textStyle?.fontSize}sp\"")
+        //todo add text styles
         if (isParent)
             list.add("/>")
         return list

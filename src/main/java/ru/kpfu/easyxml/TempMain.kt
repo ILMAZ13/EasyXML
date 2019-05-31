@@ -2,7 +2,6 @@ package ru.kpfu.easyxml
 
 import com.github.salomonbrys.kodein.instance
 import ru.kpfu.easyxml.di.kodein
-import ru.kpfu.easyxml.modules.entities.figma.NodesResponse
 import ru.kpfu.easyxml.modules.network.Api
 import ru.kpfu.easyxml.modules.recognition.ObjectDetector
 import ru.kpfu.easyxml.modules.recognition.Recognizer
@@ -28,25 +27,23 @@ fun main() {
             val recognizer by kodein.instance<Recognizer>()
             val objectDetector by kodein.instance<ObjectDetector>()
 
-            api.getRes(token, key, id)
-                    .subscribe { fileResponse: NodesResponse?, _: Throwable? ->
-                        fileResponse?.nodes?.get(id)?.document?.let { doc ->
-                            api.getImages(token, key, doc.id, "jpg").subscribe { imageResponse, _ ->
-                                        imageResponse?.let {
-                                            val url = URL(it.images[doc.id])
-                                            val file = File("last.jpg")
+            api.getRes(token, key, id).subscribe { fileResponse, _ ->
+                fileResponse?.nodes?.get(id)?.document?.let { doc ->
+                    api.getImages(token, key, doc.id, "jpg").subscribe { imageResponse, _ ->
+                        imageResponse?.let {
+                            val url = URL(it.images[doc.id])
+                            val file = File("last.jpg")
 
-                                            downloadImage(url, file)
+                            downloadImage(url, file)
 
-                                            val results = objectDetector.recognize(file)
+                            val results = objectDetector.recognize(file)
 
-                                        }
-                                    }
-
-                            val screen = recognizer.recognize(doc)
+                            val screen = recognizer.recognize(doc, results)
                             print(screen.getString())
                         }
                     }
+                }
+            }
         }
     }
 }

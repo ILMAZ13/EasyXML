@@ -4,9 +4,6 @@ import ru.kpfu.easyxml.modules.entities.figma.Document
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.ViewGroup
 
 class CardView(document: Document) : ViewGroup(document) {
-    companion object {
-        val KEY = "card"
-    }
 
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (isParent)

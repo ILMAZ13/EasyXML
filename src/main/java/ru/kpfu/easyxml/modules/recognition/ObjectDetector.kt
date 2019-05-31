@@ -70,12 +70,16 @@ class ObjectDetector {
                                 System.out.printf("\tFound %-20s (score: %.4f)\n", labels[classes[i].toInt()], scores[i])
                                 val x = Math.round(width * boxes[i][1])
                                 val y = Math.round(height * boxes[i][0])
-                                val xx = Math.round(width * boxes[i][3]) - x
-                                val yy = Math.round(height * boxes[i][2]) - y
-                                results.add(Result(labels[classes[i].toInt()] ?: "?", x, y, xx, yy))
+                                val x2 = Math.round(width * boxes[i][3])
+                                val y2 = Math.round(height * boxes[i][2])
+                                results.add(Result(labels[classes[i].toInt()] ?: "?",
+                                        boxes[i][1],
+                                        boxes[i][0],
+                                        boxes[i][3],
+                                        boxes[i][2]))
 
                                 //todo to removing
-                                g2d.drawRect(x, y, xx, yy)
+                                g2d.drawRect(x, y, x2 - x, y2 - y)
                                 g2d.drawString(labels[classes[i].toInt()], x, y + 15)
 
                             }
@@ -162,9 +166,9 @@ class ObjectDetector {
 
     data class Result(
             val name: String,
-            val x: Int,
-            val y: Int,
-            val width: Int,
-            val height: Int
+            val x: Float,
+            val y: Float,
+            val x2: Float,
+            val y2: Float
     )
 }
