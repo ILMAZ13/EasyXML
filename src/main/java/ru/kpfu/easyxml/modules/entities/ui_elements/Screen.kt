@@ -4,7 +4,9 @@ import ru.kpfu.easyxml.modules.entities.figma.Document
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.ViewGroup
 import java.util.*
 
-class Screen(document: Document) : ViewGroup(document) {
+class Screen(document: Document) : ViewGroup(document, null) {
+    override fun getPrefix() = "cl"
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         list.add("<AbsoluteLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"")
         list.add("xmlns:app=\"http://schemas.android.com/apk/res-auto\"")

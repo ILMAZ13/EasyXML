@@ -8,6 +8,8 @@ class BottomNavigation(document: Document) : View(document) {
         const val KEY = "buttom_nav"
     }
 
+    override fun getPrefix() = "bn"
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         return list
     }

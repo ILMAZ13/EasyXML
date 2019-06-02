@@ -7,6 +7,12 @@ class EditText(document: Document) : TextView(document) {
         const val KEY = "edit_text"
     }
 
+    init {
+        textColor = null
+    }
+
+    override fun getPrefix() = "et"
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (isParent)
             list.add("<EditText")

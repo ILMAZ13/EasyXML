@@ -8,6 +8,8 @@ class AppBar(document: Document) : View(document) {
         const val KEY = "app_bar"
     }
 
+    override fun getPrefix() = "ab"
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         return list
     }

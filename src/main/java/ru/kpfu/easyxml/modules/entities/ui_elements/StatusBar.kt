@@ -8,6 +8,8 @@ class StatusBar(document: Document) : View(document) {
         const val KEY = "toolbar"
     }
 
+    override fun getPrefix() = "tb"
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         return list
     }

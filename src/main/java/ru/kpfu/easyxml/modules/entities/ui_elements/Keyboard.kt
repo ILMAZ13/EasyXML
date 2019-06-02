@@ -8,6 +8,8 @@ class Keyboard(document: Document) : View(document) {
         const val KEY = "keyboard"
     }
 
+    override fun getPrefix() = "kbd"
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         return list
     }

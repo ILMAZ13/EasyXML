@@ -133,7 +133,7 @@ data class Document(
          * Opacity of the node
          */
         @SerializedName("opacity")
-        private val _opacity: Double?,
+        private val _opacity: Float?,
 
         /**
          * Keep height and width constrained to same ratio
@@ -219,7 +219,7 @@ data class Document(
         get() = _visible ?: true
 
     val opacity
-        get() = _opacity ?: 1.0
+        get() = _opacity ?: 1F
 
     var isImage: Boolean = false
 

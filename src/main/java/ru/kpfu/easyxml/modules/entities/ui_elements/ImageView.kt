@@ -3,8 +3,10 @@ package ru.kpfu.easyxml.modules.entities.ui_elements
 import ru.kpfu.easyxml.modules.entities.figma.Document
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.View
 
-open class Icon(document: Document) : View(document) {
-    val iconSrc = uniName(document.name)
+open class ImageView(document: Document) : View(document) {
+    val iconSrc = uniName(document.name, "ic")
+
+    override fun getPrefix() = "iv"
 
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (isParent)
@@ -16,7 +18,4 @@ open class Icon(document: Document) : View(document) {
 
         return list
     }
-
-    private fun uniName(name: String) =
-            "ic_" + name.toLowerCase().replace(' ', '_', true)
 }
