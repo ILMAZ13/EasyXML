@@ -1,7 +1,7 @@
 package ru.kpfu.easyxml.modules.entities.ui_elements
 
-import ru.kpfu.easyxml.modules.entities.Document
-import ru.kpfu.easyxml.modules.entities.TypeStyle
+import ru.kpfu.easyxml.modules.entities.figma.Document
+import ru.kpfu.easyxml.modules.entities.figma.TypeStyle
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.View
 
 open class TextView(document: Document) : View(document) {
@@ -18,7 +18,8 @@ open class TextView(document: Document) : View(document) {
             list.add("<TextView")
         super.getParamLines(list, false)
         list.add("tools:text=\"$text\"")
-        list.add("android:textSize=\"${textStyle?.fontSize}sp\"\n")
+        list.add("android:textSize=\"${textStyle?.fontSize}sp\"")
+        //todo add text styles
         if (isParent)
             list.add("/>")
         return list

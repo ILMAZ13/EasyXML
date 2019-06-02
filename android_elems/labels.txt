@@ -1,4 +1,0 @@
-button
-checkbox
-radiobutton
-switch

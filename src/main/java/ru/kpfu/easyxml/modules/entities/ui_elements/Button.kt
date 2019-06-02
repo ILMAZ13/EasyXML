@@ -1,10 +1,10 @@
 package ru.kpfu.easyxml.modules.entities.ui_elements
 
-import ru.kpfu.easyxml.modules.entities.Document
+import ru.kpfu.easyxml.modules.entities.figma.Document
 
 class Button(document: Document) : TextView(document) {
     companion object {
-        var KEY = "button"
+        const val KEY = "button"
     }
 
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
