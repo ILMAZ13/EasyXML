@@ -3,6 +3,7 @@ package ru.kpfu.easyxml
 import com.github.salomonbrys.kodein.instance
 import ru.kpfu.easyxml.di.kodein
 import ru.kpfu.easyxml.modules.network.Api
+import ru.kpfu.easyxml.modules.recognition.ConstraintGenerator
 import ru.kpfu.easyxml.modules.recognition.ObjectDetector
 import ru.kpfu.easyxml.modules.recognition.Recognizer
 import java.io.File
@@ -39,6 +40,9 @@ fun main() {
                             val results = objectDetector.recognize(file)
 
                             val screen = recognizer.recognize(doc, results)
+
+                            ConstraintGenerator().generateConstraint(screen)
+
                             print(screen.getString())
                         }
                     }
