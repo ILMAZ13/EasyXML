@@ -14,7 +14,7 @@ open class ViewGroup(
         if (children.isNullOrEmpty())
             return list
         if (isParent)
-            list.add("<AbsoluteLayout")
+            list.add("<androidx.constraintlayout.widget.ConstraintLayout")
         super.getParamLines(list, false)
         list.add(">")
         children.forEach {
@@ -22,7 +22,7 @@ open class ViewGroup(
             list.add("")
         }
         if (isParent)
-            list.add("</AbsoluteLayout>")
+            list.add("</androidx.constraintlayout.widget.ConstraintLayout>")
 
         return list
     }

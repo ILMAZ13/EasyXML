@@ -52,10 +52,47 @@ abstract class View(var document: Document) {
 
     open fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         list.add("android:id=\"@+id/$id\"")
-        list.add("android:layout_width=\"${width}dp\"")
-        list.add("android:layout_height=\"${height}dp\"")
-        list.add("android:layout_x=\"${x}dp\"")
-        list.add("android:layout_y=\"${y}dp\"")
+        when (layoutWidth) {
+            WRAP_CONTENT -> list.add("android:layout_width=\"wrap_content\"")
+            MATCH_PARENT -> list.add("android:layout_width=\"match_parent\"")
+            0.0 -> list.add("android:layout_width=\"${width}dp\"")
+            else -> list.add("android:layout_width=\"${layoutWidth}dp\"")
+        }
+        when (layoutHeight) {
+            WRAP_CONTENT -> list.add("android:layout_height=\"wrap_content\"")
+            MATCH_PARENT -> list.add("android:layout_height=\"match_parent\"")
+            0.0 -> list.add("android:layout_height=\"${height}dp\"")
+            else -> list.add("android:layout_height=\"${layoutHeight}dp\"")
+        }
+
+        constraintTop?.let {
+            list.add("android:layout_marginTop=\"${marginTop}dp\"")
+            if (it == "parent")
+                list.add("app:layout_constraintTop_toTopOf=\"parent\"")
+            else
+                list.add("app:layout_constraintTop_toBottomOf=\"@id/$it\"")
+        }
+        constraintBottom?.let {
+            list.add("android:layout_marginBottom=\"${marginBottom}dp\"")
+            if (it == "parent")
+                list.add("app:layout_constraintBottom_toBottomOf=\"parent\"")
+            else
+                list.add("app:layout_constraintBottom_toTopOf=\"@id/$it\"")
+        }
+        constraintStart?.let {
+            list.add("android:layout_marginStart=\"${marginStart}dp\"")
+            if (it == "parent")
+                list.add("app:layout_constraintStart_toStartOf=\"parent\"")
+            else
+                list.add("app:layout_constraintStart_toEndOf=\"@id/$it\"")
+        }
+        constraintEnd?.let {
+            list.add("android:layout_marginEnd=\"${marginEnd}dp\"")
+            if (it == "parent")
+                list.add("app:layout_constraintEnd_toEndOf=\"parent\"")
+            else
+                list.add("app:layout_constraintEnd_toStartOf=\"@id/$it\"")
+        }
         backgroundColor?.let {
             addBackground(list, it, document.opacity)
         }

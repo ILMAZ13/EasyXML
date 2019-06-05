@@ -8,11 +8,11 @@ class Screen(document: Document) : ViewGroup(document, null) {
     override fun getPrefix() = "cl"
 
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
-        list.add("<AbsoluteLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"")
+        list.add("<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"")
         list.add("xmlns:app=\"http://schemas.android.com/apk/res-auto\"")
         list.add("xmlns:tools=\"http://schemas.android.com/tools\"")
         super.getParamLines(list, false)
-        list.add("</AbsoluteLayout>")
+        list.add("</androidx.constraintlayout.widget.ConstraintLayout>")
         return list
     }
 
