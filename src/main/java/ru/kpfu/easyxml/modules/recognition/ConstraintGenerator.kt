@@ -1,5 +1,6 @@
 package ru.kpfu.easyxml.modules.recognition
 
+import ru.kpfu.easyxml.modules.entities.figma.Document
 import ru.kpfu.easyxml.modules.entities.figma.LayoutConstraint
 import ru.kpfu.easyxml.modules.entities.ui_elements.Screen
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.View
@@ -11,55 +12,120 @@ class ConstraintGenerator {
         generateConstraintOnGroup(screen)
     }
 
+    fun fixConstraints(document: Document) {
+        if (!document.children.isNullOrEmpty()) {
+            document.children.forEach {
+                fixConstraints(it)
+            }
+            var vertical = document.children[0].constraints.vertical
+            var horizontal = document.children[0].constraints.horizontal
+            document.children.forEach {
+                if (vertical != it.constraints.vertical)
+                    vertical = LayoutConstraint.Vertical.Mixed
+                if (horizontal != it.constraints.horizontal)
+                    horizontal = LayoutConstraint.Horizontal.Mixed
+            }
+            document.constraints = LayoutConstraint(horizontal, vertical)
+        }
+    }
+
     private fun generateConstraintOnGroup(viewGroup: ViewGroup) {
         //to top
-        var previousId = "parent"
-        var previousBottomY = 0.0
-        viewGroup.children.filter { it.document.constraints?.vertical == LayoutConstraint.Vertical.Top }
+        val topList = viewGroup.children.filter { it.document.constraints.vertical == LayoutConstraint.Vertical.Top }
                 .sortedBy { it.y }
-                .forEach {
-                    it.constraintTop = previousId
-                    it.marginTop = it.y - previousBottomY
-                    previousId = it.id
-                    previousBottomY = it.y + it.height
-                    it.layoutHeight = View.WRAP_CONTENT
+        topList.forEachIndexed { index, view ->
+            var i = index - 1
+            while (true) {
+                if (i >= 0) {
+                    val topView = topList[i]
+                    val marginTop = view.y - topView.y - topView.height
+                    if (marginTop < 0) {
+                        i--
+                    } else {
+                        view.marginTop = marginTop
+                        view.constraintTop = topView.id
+                        break
+                    }
+                } else {
+                    view.constraintTop = "parent"
+                    view.marginTop = view.y
+                    break
                 }
+            }
+            view.layoutHeight = View.WRAP_CONTENT
+        }
         //to bottom
-        previousId = "parent"
-        var previousTopY = viewGroup.height
-        viewGroup.children.filter { it.document.constraints?.vertical == LayoutConstraint.Vertical.Bottom }
+        val bottomList = viewGroup.children.filter { it.document.constraints.vertical == LayoutConstraint.Vertical.Bottom }
                 .sortedByDescending { it.y }
-                .forEach {
-                    it.constraintBottom = previousId
-                    it.marginBottom = previousTopY - (it.y + it.height)
-                    previousId = it.id
-                    previousTopY = it.y
-                    it.layoutHeight = View.WRAP_CONTENT
+        bottomList.forEachIndexed { index, view ->
+            var i = index - 1
+            while (true) {
+                if (i >= 0) {
+                    val bottomView = bottomList[i]
+                    val marginBottom = bottomView.y - view.y - view.height
+                    if (marginBottom < 0) {
+                        i--
+                    } else {
+                        view.marginBottom = marginBottom
+                        view.constraintBottom = bottomView.id
+                        break
+                    }
+                } else {
+                    view.constraintBottom = "parent"
+                    view.marginBottom = viewGroup.height - view.y - view.height
+                    break
                 }
+            }
+            view.layoutHeight = View.WRAP_CONTENT
+        }
         //to left
-        previousId = "parent"
-        var previousRightX = 0.0
-        viewGroup.children.filter { it.document.constraints?.horizontal == LayoutConstraint.Horizontal.Left }
+        val leftList = viewGroup.children.filter { it.document.constraints.horizontal == LayoutConstraint.Horizontal.Left }
                 .sortedBy { it.x }
-                .forEach {
-                    it.constraintStart = previousId
-                    it.marginStart = it.x - previousRightX
-                    previousId = it.id
-                    previousRightX = it.x + it.width
-                    it.layoutWidth = View.WRAP_CONTENT
+        leftList.forEachIndexed { index, view ->
+            var i = index - 1
+            while (true) {
+                if (i >= 0) {
+                    val leftView = leftList[i]
+                    val marginLeft = view.x - leftView.x - leftView.width
+                    if (marginLeft < 0) {
+                        i--
+                    } else {
+                        view.marginStart = marginLeft
+                        view.constraintStart = leftView.id
+                        break
+                    }
+                } else {
+                    view.constraintStart = "parent"
+                    view.marginStart = view.x
+                    break
                 }
+            }
+            view.layoutWidth = View.WRAP_CONTENT
+        }
         //to right
-        previousId = "parent"
-        var previousLeftX = viewGroup.width
-        viewGroup.children.filter { it.document.constraints?.horizontal == LayoutConstraint.Horizontal.Right }
+        val rightList = viewGroup.children.filter { it.document.constraints.horizontal == LayoutConstraint.Horizontal.Right }
                 .sortedByDescending { it.x }
-                .forEach {
-                    it.constraintEnd = previousId
-                    it.marginEnd = previousLeftX - (it.x + it.width)
-                    previousId = it.id
-                    previousLeftX = it.x
-                    it.layoutWidth = View.WRAP_CONTENT
+        rightList.forEachIndexed { index, view ->
+            var i = index - 1
+            while (true) {
+                if (i >= 0) {
+                    val rightView = rightList[i]
+                    val marginRight = rightView.x - view.x - view.width
+                    if (marginRight < 0) {
+                        i--
+                    } else {
+                        view.marginEnd = marginRight
+                        view.constraintEnd = rightView.id
+                        break
+                    }
+                } else {
+                    view.marginEnd = viewGroup.width - view.x - view.width
+                    view.constraintEnd = "parent"
+                    break
                 }
+            }
+            view.layoutWidth = View.WRAP_CONTENT
+        }
 
         //todo add center, leftRight, topBottom, guidelines
 

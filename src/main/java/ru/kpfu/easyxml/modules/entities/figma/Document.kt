@@ -109,7 +109,7 @@ data class Document(
         /**
          * Horizontal and vertical layout constraints for node
          */
-        val constraints: LayoutConstraint? = null,
+        var constraints: LayoutConstraint,
 
         /**
          * An array of effects attached to this node

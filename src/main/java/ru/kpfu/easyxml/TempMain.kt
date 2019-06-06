@@ -39,9 +39,13 @@ fun main() {
 
                             val results = objectDetector.recognize(file)
 
+                            val constraintGenerator = ConstraintGenerator()
+
+                            constraintGenerator.fixConstraints(doc)
+
                             val screen = recognizer.recognize(doc, results)
 
-                            ConstraintGenerator().generateConstraint(screen)
+                            constraintGenerator.generateConstraint(screen)
 
                             print(screen.getString())
                         }
