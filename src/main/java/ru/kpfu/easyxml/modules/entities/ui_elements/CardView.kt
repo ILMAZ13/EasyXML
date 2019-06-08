@@ -6,7 +6,10 @@ import ru.kpfu.easyxml.modules.entities.ui_elements.base.ViewGroup
 class CardView(document: Document,
                parent: ViewGroup?
 ) : ViewGroup(document, parent) {
+
     override fun getPrefix() = "cv"
+
+    override fun isShown() = true
 
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (isParent)

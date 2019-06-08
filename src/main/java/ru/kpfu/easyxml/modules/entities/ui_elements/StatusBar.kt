@@ -10,6 +10,8 @@ class StatusBar(document: Document) : View(document) {
 
     override fun getPrefix() = "tb"
 
+    override fun isShown() = false
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         return list
     }

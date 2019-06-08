@@ -11,6 +11,8 @@ class CheckBox(document: Document) : View(document) {
 
     override fun getPrefix() = "cb"
 
+    override fun isShown() = true
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (isParent)
             list.add("<androidx.appcompat.widget.AppCompatCheckBox")

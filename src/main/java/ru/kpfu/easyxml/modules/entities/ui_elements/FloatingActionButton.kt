@@ -9,9 +9,11 @@ class FloatingActionButton(document: Document) : ImageView(document) {
 
     override fun getPrefix() = "fab"
 
+    override fun isShown() = true
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (isParent)
-            list.add("<android.support.design.widget.FloatingActionButton")
+            list.add("<com.google.android.material.floatingactionbutton.FloatingActionButton")
         super.getParamLines(list, false)
         if (isParent)
             list.add("/>")

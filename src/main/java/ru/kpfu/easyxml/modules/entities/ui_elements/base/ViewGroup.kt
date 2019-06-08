@@ -10,6 +10,8 @@ open class ViewGroup(
 
     override fun getPrefix() = "cl"
 
+    override fun isShown() = true
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (children.isNullOrEmpty())
             return list

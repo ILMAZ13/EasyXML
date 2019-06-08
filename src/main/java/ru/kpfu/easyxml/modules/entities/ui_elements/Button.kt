@@ -14,6 +14,8 @@ class Button(document: Document) : TextView(document) {
 
     override fun getPrefix() = "btn"
 
+    override fun isShown() = true
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (isParent)
             list.add("<androidx.appcompat.widget.AppCompatButton")

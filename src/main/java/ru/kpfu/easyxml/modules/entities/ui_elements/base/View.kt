@@ -107,4 +107,6 @@ abstract class View(var document: Document) {
             prefix + "_" + name.toLowerCase().replace(' ', '_', true)
 
     abstract fun getPrefix(): String
+
+    abstract fun isShown(): Boolean
 }

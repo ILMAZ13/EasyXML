@@ -8,7 +8,8 @@ import ru.kpfu.easyxml.modules.entities.ui_elements.base.ViewGroup
 
 class ConstraintGenerator {
     fun generateConstraint(screen: Screen) {
-        //todo add constraints on screen too
+        screen.layoutWidth = View.MATCH_PARENT
+        screen.layoutHeight = View.MATCH_PARENT
         generateConstraintOnGroup(screen)
     }
 
@@ -43,7 +44,11 @@ class ConstraintGenerator {
                         i--
                     } else {
                         view.marginTop = marginTop
-                        view.constraintTop = topView.id
+                        view.constraintTop =
+                                if (topView.isShown())
+                                    topView.id
+                                else
+                                    topView.constraintTop
                         break
                     }
                 } else {
@@ -67,7 +72,11 @@ class ConstraintGenerator {
                         i--
                     } else {
                         view.marginBottom = marginBottom
-                        view.constraintBottom = bottomView.id
+                        view.constraintBottom =
+                                if (bottomView.isShown())
+                                    bottomView.id
+                                else
+                                    bottomView.constraintBottom
                         break
                     }
                 } else {
@@ -91,7 +100,11 @@ class ConstraintGenerator {
                         i--
                     } else {
                         view.marginStart = marginLeft
-                        view.constraintStart = leftView.id
+                        view.constraintStart =
+                                if (leftView.isShown())
+                                    leftView.id
+                                else
+                                    leftView.constraintStart
                         break
                     }
                 } else {
@@ -115,7 +128,11 @@ class ConstraintGenerator {
                         i--
                     } else {
                         view.marginEnd = marginRight
-                        view.constraintEnd = rightView.id
+                        view.constraintEnd =
+                                if (rightView.isShown())
+                                    rightView.id
+                                else
+                                    rightView.constraintEnd
                         break
                     }
                 } else {

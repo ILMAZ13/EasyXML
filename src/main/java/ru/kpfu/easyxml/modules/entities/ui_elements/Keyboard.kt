@@ -10,6 +10,8 @@ class Keyboard(document: Document) : View(document) {
 
     override fun getPrefix() = "kbd"
 
+    override fun isShown() = false
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         return list
     }

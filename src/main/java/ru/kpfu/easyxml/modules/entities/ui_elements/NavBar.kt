@@ -10,6 +10,8 @@ class NavBar(document: Document) : View(document) {
 
     override fun getPrefix() = "nb"
 
+    override fun isShown() = false
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         return list
     }

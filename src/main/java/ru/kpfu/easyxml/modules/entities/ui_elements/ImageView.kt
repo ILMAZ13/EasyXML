@@ -8,6 +8,8 @@ open class ImageView(document: Document) : View(document) {
 
     override fun getPrefix() = "iv"
 
+    override fun isShown() = true
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (isParent)
             list.add("<ImageView")

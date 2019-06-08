@@ -10,6 +10,8 @@ class BottomNavigation(document: Document) : View(document) {
 
     override fun getPrefix() = "bn"
 
+    override fun isShown() = false
+
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         return list
     }
