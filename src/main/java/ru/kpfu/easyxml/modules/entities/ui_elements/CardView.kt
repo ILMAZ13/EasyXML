@@ -14,7 +14,7 @@ class CardView(document: Document,
     override fun getParamLines(list: MutableList<String>, isParent: Boolean): MutableList<String> {
         if (isParent)
             list.add("<androidx.cardview.widget.CardView")
-        super.getParamLines(list, false)
+        super.getParamLinesWithChildConstraint(list, false)
         if (isParent)
             list.add("</androidx.cardview.widget.CardView>")
 
