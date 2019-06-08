@@ -2,6 +2,7 @@ package ru.kpfu.easyxml.modules.entities.ui_elements.base
 
 import ru.kpfu.easyxml.modules.entities.figma.Color
 import ru.kpfu.easyxml.modules.entities.figma.Document
+import ru.kpfu.easyxml.modules.utils.IdHelper
 
 abstract class View(var document: Document) {
 
@@ -41,7 +42,7 @@ abstract class View(var document: Document) {
 
     init {
 //        backgroundColor = document.backgroundColor
-        id = uniName(document.name, getPrefix())
+        id = IdHelper.getUniqueId(document.name, getPrefix())
         document.absoluteBoundingBox?.let {
             absoluteX = it.x
             absoluteY = it.y
@@ -102,9 +103,6 @@ abstract class View(var document: Document) {
     open fun addBackground(list: MutableList<String>, it: Color, opacity: Float = 1F) {
         list.add("android:background=\"${it.getHex(opacity)}\"")
     }
-
-    fun uniName(name: String, prefix: String) =
-            prefix + "_" + name.toLowerCase().replace(' ', '_', true)
 
     abstract fun getPrefix(): String
 

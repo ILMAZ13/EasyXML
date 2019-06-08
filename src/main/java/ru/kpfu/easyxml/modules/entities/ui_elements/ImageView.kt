@@ -2,9 +2,10 @@ package ru.kpfu.easyxml.modules.entities.ui_elements
 
 import ru.kpfu.easyxml.modules.entities.figma.Document
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.View
+import ru.kpfu.easyxml.modules.utils.IdHelper
 
 open class ImageView(document: Document) : View(document) {
-    val iconSrc = uniName(document.name, "ic")
+    val iconSrc = IdHelper.getUniqueId(document.name, "ic")
 
     override fun getPrefix() = "iv"
 
