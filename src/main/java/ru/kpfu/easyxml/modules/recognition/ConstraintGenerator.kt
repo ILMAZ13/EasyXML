@@ -145,6 +145,23 @@ class ConstraintGenerator {
         }
 
         //todo add center, leftRight, topBottom, guidelines
+        viewGroup.children.filter { it.document.constraints.horizontal == LayoutConstraint.Horizontal.LeftRight }
+                .forEach {
+                    it.constraintStart = "parent"
+                    it.constraintEnd = "parent"
+                    it.marginStart = it.x
+                    it.marginEnd = viewGroup.width - it.x - it.width
+                    it.layoutWidth = View.MATCH_PARENT
+                }
+
+        viewGroup.children.filter { it.document.constraints.vertical == LayoutConstraint.Vertical.TopBottom }
+                .forEach {
+                    it.constraintTop = "parent"
+                    it.constraintBottom = "parent"
+                    it.marginTop = it.y
+                    it.marginBottom = viewGroup.height - it.y - it.height
+                    it.layoutHeight = View.MATCH_PARENT
+                }
 
         //recursion to other layouts
         viewGroup.children.forEach {
