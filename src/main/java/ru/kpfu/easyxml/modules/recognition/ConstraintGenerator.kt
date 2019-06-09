@@ -20,11 +20,26 @@ class ConstraintGenerator {
             }
             var vertical = document.children[0].constraints.vertical
             var horizontal = document.children[0].constraints.horizontal
+            var hasLeftRight = false
+            var hasTopBottom = false
             document.children.forEach {
-                if (vertical != it.constraints.vertical)
-                    vertical = LayoutConstraint.Vertical.Mixed
-                if (horizontal != it.constraints.horizontal)
-                    horizontal = LayoutConstraint.Horizontal.Mixed
+                if (it.constraints.horizontal == LayoutConstraint.Horizontal.LeftRight)
+                    hasLeftRight = true
+                if (it.constraints.vertical == LayoutConstraint.Vertical.TopBottom)
+                    hasTopBottom = true
+                if (vertical != it.constraints.vertical) {
+                    vertical = if (hasTopBottom)
+                        LayoutConstraint.Vertical.TopBottom
+                    else
+                        LayoutConstraint.Vertical.Mixed
+                }
+                if (horizontal != it.constraints.horizontal) {
+                    horizontal = if (hasLeftRight)
+                        LayoutConstraint.Horizontal.LeftRight
+                    else
+                        LayoutConstraint.Horizontal.Mixed
+                }
+
             }
             document.constraints = LayoutConstraint(horizontal, vertical)
         }
