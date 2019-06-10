@@ -159,7 +159,7 @@ class ConstraintGenerator {
             view.layoutWidth = View.WRAP_CONTENT
         }
 
-        //todo add center, leftRight, topBottom, guidelines
+        //todo add guidelines
         viewGroup.children.filter { it.document.constraints.horizontal == LayoutConstraint.Horizontal.LeftRight }
                 .forEach {
                     it.constraintStart = "parent"
@@ -176,6 +176,30 @@ class ConstraintGenerator {
                     it.marginTop = it.y
                     it.marginBottom = viewGroup.height - it.y - it.height
                     it.layoutHeight = View.MATCH_PARENT
+                }
+
+        viewGroup.children.filter { it.document.constraints.horizontal == LayoutConstraint.Horizontal.Center }
+                .forEach {
+                    it.constraintStart = "parent"
+                    it.constraintEnd = "parent"
+                    it.layoutConstraintHorizontalBias = if (it.x == 0.0) {
+                        0.0
+                    } else {
+                        it.x / (viewGroup.width - it.width)
+                    }
+                    it.layoutWidth = View.WRAP_CONTENT
+                }
+
+        viewGroup.children.filter { it.document.constraints.vertical == LayoutConstraint.Vertical.Center }
+                .forEach {
+                    it.constraintTop = "parent"
+                    it.constraintBottom = "parent"
+                    it.layoutConstraintVerticalBias = if (it.y == 0.0) {
+                        0.0
+                    } else {
+                        it.y / (viewGroup.height - it.height)
+                    }
+                    it.layoutHeight = View.WRAP_CONTENT
                 }
 
         //recursion to other layouts

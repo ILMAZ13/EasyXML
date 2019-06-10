@@ -40,6 +40,9 @@ abstract class View(var document: Document) {
     var constraintEnd: String? = null
     var constraintBottom: String? = null
 
+    var layoutConstraintHorizontalBias = 0.5
+    var layoutConstraintVerticalBias = 0.5
+
     init {
 //        backgroundColor = document.backgroundColor
         id = IdHelper.getUniqueId(document.name, getPrefix())
@@ -96,6 +99,12 @@ abstract class View(var document: Document) {
         }
         backgroundColor?.let {
             addBackground(list, it, document.opacity)
+        }
+        if (layoutConstraintHorizontalBias != 0.5) {
+            list.add("app:layout_constraintHorizontal_bias=\"$layoutConstraintHorizontalBias\"")
+        }
+        if (layoutConstraintVerticalBias != 0.5) {
+            list.add("app:layout_constraintVertical_bias=\"$layoutConstraintVerticalBias\"")
         }
         return list
     }

@@ -250,7 +250,6 @@ class NameBasedRecognizer : Recognizer {
                     a *= document.opacity
                 }
         }
-        //ToDo: Need to fix
         parentView.radius = document.cornerRadius ?: 0.0
     }
 
