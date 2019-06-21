@@ -226,9 +226,7 @@ class NameBasedRecognizer : Recognizer {
             return false
         } else {
             document.children.forEach {
-                if (it.type != NodeType.VECTOR
-                        && it.type != NodeType.RECTANGLE
-                        && it.type != NodeType.ELLIPSE)
+                if (!isImage(it))
                     return false
             }
             return true

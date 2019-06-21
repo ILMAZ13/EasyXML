@@ -24,7 +24,6 @@ class ObjectDetector {
         const val LABELS_PATH = "labels/labelmap.pbtxt"
         const val MODEL_PATH = "models/inference_graph_16k/saved_model"
         const val MIN_SCORE = 0.5
-
     }
 
     fun recognize(imageFile: File): List<Result> {

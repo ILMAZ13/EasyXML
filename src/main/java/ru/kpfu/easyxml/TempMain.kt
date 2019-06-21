@@ -15,7 +15,8 @@ import java.util.regex.Pattern
 
 fun main() {
 //    val url = "https://www.figma.com/file/gRMfq4AUKyimENMXkJ7abt/Google-Material-Design?node-id=0:1714"
-    val url = "https://www.figma.com/file/d6fDGDphwkZyVH5VIs3BOOrD/Untitled?node-id=1%3A2"
+//    val url = "https://www.figma.com/file/d6fDGDphwkZyVH5VIs3BOOrD/Untitled?node-id=1%3A2"
+    val url = "https://www.figma.com/file/msniOULtwhPJsHLLdiHK1n/_kfu_client?node-id=0%3A189"
     URLDecoder.decode(url, "UTF-8")?.let {
         val pattern = Pattern.compile("^.*/file/([^/]+)[^?]*\\?[^?]*node-id=([^&]+).*$")
         val matcher = pattern.matcher(it)
