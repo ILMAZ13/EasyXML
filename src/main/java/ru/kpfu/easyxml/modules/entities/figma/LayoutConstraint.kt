@@ -41,6 +41,8 @@ data class LayoutConstraint(
      * "SCALE": Node scales horizontally with containing frame
      */
     enum class Horizontal {
+        @SerializedName("MIXED")
+        Mixed,
         @SerializedName("CENTER")
         Center,
         @SerializedName("LEFT")
@@ -63,6 +65,8 @@ data class LayoutConstraint(
      * "SCALE": Node scales vertically with containing frame
      */
     enum class Vertical {
+        @SerializedName("MIXED")
+        Mixed,
         @SerializedName("BOTTOM")
         Bottom,
         @SerializedName("CENTER")

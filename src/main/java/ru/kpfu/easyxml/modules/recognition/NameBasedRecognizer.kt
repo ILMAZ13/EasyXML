@@ -1,9 +1,6 @@
 package ru.kpfu.easyxml.modules.recognition
 
-import ru.kpfu.easyxml.modules.entities.figma.Document
-import ru.kpfu.easyxml.modules.entities.figma.Effect
-import ru.kpfu.easyxml.modules.entities.figma.NodeType
-import ru.kpfu.easyxml.modules.entities.figma.Paint
+import ru.kpfu.easyxml.modules.entities.figma.*
 import ru.kpfu.easyxml.modules.entities.ui_elements.*
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.View
 import ru.kpfu.easyxml.modules.entities.ui_elements.base.ViewGroup
@@ -11,7 +8,7 @@ import ru.kpfu.easyxml.modules.entities.ui_elements.base.ViewGroup
 class NameBasedRecognizer : Recognizer {
 
     companion object {
-        private const val THRESHOLD = 8
+        private const val THRESHOLD = 16
     }
 
     private var results: List<ObjectDetector.Result>? = null
@@ -39,9 +36,17 @@ class NameBasedRecognizer : Recognizer {
             is Button -> {
                 when {
                     isBackground(document, isFirst) -> setBackgroundToParent(document, parentView)
-                    recognizeView(document) is TextView -> {
+                    recognizeView(document, null) is TextView -> {
                         parentView.text = document.characters ?: parentView.text
                         parentView.textStyle = document.style
+                        document.fills?.forEach {
+                            if (it.visible && it.type == Paint.FillType.Solid)
+                                it.color?.apply {
+                                    a *= document.opacity
+                                }?.let {
+                                    parentView.textColor = it
+                                }
+                        }
                     }
                 }
             }
@@ -49,7 +54,7 @@ class NameBasedRecognizer : Recognizer {
             is EditText -> {
                 when {
                     isBackground(document, isFirst) -> setBackgroundToParent(document, parentView)
-                    recognizeView(document) is TextView -> {
+                    recognizeView(document, null) is TextView -> {
                         parentView.text = document.characters ?: parentView.text
                         parentView.textStyle = document.style
                     }
@@ -64,6 +69,42 @@ class NameBasedRecognizer : Recognizer {
                 }
             }
 
+            is Switch -> {
+                var color: Color? = null
+                document.fills?.forEach {
+                    if (it.visible && it.type == Paint.FillType.Solid)
+                        color = it.color?.apply {
+                            a *= document.opacity
+                        }
+                }
+                color?.let {
+                    parentView.trackTint = parentView.thumbTint
+                    parentView.thumbTint = it
+                }
+            }
+
+            is RadioButton -> {
+                document.fills?.forEach {
+                    if (it.visible && it.type == Paint.FillType.Solid)
+                        it.color?.apply {
+                            a *= document.opacity
+                        }?.let {
+                            parentView.backgroundColor = it
+                        }
+                }
+            }
+
+            is CheckBox -> {
+                document.fills?.forEach {
+                    if (it.visible && it.type == Paint.FillType.Solid)
+                        it.color?.apply {
+                            a *= document.opacity
+                        }?.let {
+                            parentView.backgroundColor = it
+                        }
+                }
+            }
+
             //todo add fab
 
             is AppBar -> {
@@ -75,7 +116,7 @@ class NameBasedRecognizer : Recognizer {
                 if (isBackground(document, isFirst)) {
                     setBackgroundToParent(document, parentView)
                 } else {
-                    recursiveRecognition(document, parentView)
+                    recursiveRecognition(document, parentView.parent ?: parentView)
                 }
             }
         }
@@ -86,7 +127,7 @@ class NameBasedRecognizer : Recognizer {
     }
 
     private fun recursiveRecognition(document: Document, parentView: ViewGroup) {
-        val childView = recognizeView(document)
+        val childView = recognizeView(document, parentView)
         childView?.let { view ->
             setCoordinates(view, parentView)
             parentView.children.add(view)
@@ -98,7 +139,7 @@ class NameBasedRecognizer : Recognizer {
         }
     }
 
-    private fun recognizeView(document: Document): View? {
+    private fun recognizeView(document: Document, parentView: ViewGroup?): View? {
         var view: View?
 
         if (!document.visible)
@@ -111,9 +152,9 @@ class NameBasedRecognizer : Recognizer {
 
         if (view == null)
             view = when {
-                isCardView(document) -> CardView(document)
-                isIcon(document) -> Icon(document)
-                document.type == NodeType.GROUP || document.type == NodeType.INSTANCE -> ViewGroup(document)
+                isCardView(document) -> CardView(document, parentView)
+                isImage(document) -> ImageView(document)
+                document.type == NodeType.GROUP || document.type == NodeType.INSTANCE -> ViewGroup(document, parentView)
                 else -> null
             }
 
@@ -151,19 +192,20 @@ class NameBasedRecognizer : Recognizer {
     }
 
     private fun isNeedToRecognizeChildren(view: View): Boolean =
-            view !is Icon
+            view !is ImageView
                     && view !is Keyboard
                     && view !is StatusBar
                     && view !is NavBar
                     && view !is BottomNavigation
 
     private fun isBackground(document: Document, isFirst: Boolean): Boolean =
-            document.type == NodeType.RECTANGLE
+            (document.type == NodeType.RECTANGLE
+                    || document.type == NodeType.VECTOR
+                    || document.type == NodeType.ELLIPSE)
                     && isFirst
                     && document.visible
                     && document.children.isNullOrEmpty()
-                    && !document.fills.isNullOrEmpty()
-                    && document.fills[0].type == Paint.FillType.Solid
+                    && hasSolidFill(document)
 
     private fun isCardView(document: Document): Boolean =
             document.type == NodeType.GROUP
@@ -174,7 +216,7 @@ class NameBasedRecognizer : Recognizer {
                     && document.children[0].cornerRadius!! > 0.0
                     && hasShadow(document.children[0])
 
-    private fun isIcon(document: Document): Boolean {
+    private fun isImage(document: Document): Boolean {
         if (document.type == NodeType.VECTOR
                 || document.type == NodeType.RECTANGLE
                 || document.type == NodeType.ELLIPSE)
@@ -184,9 +226,7 @@ class NameBasedRecognizer : Recognizer {
             return false
         } else {
             document.children.forEach {
-                if (it.type != NodeType.VECTOR
-                        && it.type != NodeType.RECTANGLE
-                        && it.type != NodeType.ELLIPSE)
+                if (!isImage(it))
                     return false
             }
             return true
@@ -202,10 +242,21 @@ class NameBasedRecognizer : Recognizer {
     }
 
     private fun setBackgroundToParent(document: Document, parentView: View) {
-        if (!document.fills.isNullOrEmpty())
-            parentView.backgroundColor = document.fills[0].color
-        //ToDo: Need to fix
+        document.fills?.forEach {
+            if (it.visible && it.type == Paint.FillType.Solid)
+                parentView.backgroundColor = it.color?.apply {
+                    a *= document.opacity
+                }
+        }
         parentView.radius = document.cornerRadius ?: 0.0
+    }
+
+    private fun hasSolidFill(document: Document): Boolean {
+        document.fills?.forEach {
+            if (it.visible && it.type == Paint.FillType.Solid)
+                return true
+        }
+        return false
     }
 
     private fun setCoordinates(view: View, parentView: View) {

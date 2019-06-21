@@ -55,8 +55,12 @@ data class Paint(
         /**
          * Is the paint enabled?
          */
-        val visible: Boolean
+        @SerializedName("visible")
+        private val _visible: Boolean?
 ) {
+
+    val visible: Boolean
+        get() = _visible ?: true
 
     /**
      * Type of paint as a string enum
